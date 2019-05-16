@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   GridRow,
   NavigationBar,
@@ -23,43 +22,51 @@ export default class ProductsGrid extends React.Component {
     this.state = {
       products: [
         {
-          name: 'Gaspar Brasserie ha',
-          address: '185 Sutter St, San Francisco, CA 94109',
+          title: 'Milk',
+          expiration: '5/16',
+          soon: true,
           image: {
             url:
-              'https://shoutem.github.io/static/getting-started/restaurant-1.jpg'
+              'https://www.worldatlas.com/r/w728-h425-c728x425/upload/b1/98/3d/shutterstock-568076731.jpg'
           }
         },
         {
-          name: 'Gaspar Brasserie ha',
-          address: '185 Sutter St, San Francisco, CA 94109',
+          title: 'Bacon',
+          expiration: '8/25',
           image: {
-            url:
-              'https://shoutem.github.io/static/getting-started/restaurant-1.jpg'
+            url: 'https://i.ytimg.com/vi/yjDpBnPuCnM/maxresdefault.jpg'
           }
         },
         {
-          name: 'Chalk Point Kitchen',
-          address: '527 Broome St, New York, NY 10013',
+          title: 'Eggs',
+          expiration: '8/25',
           image: {
             url:
-              'https://shoutem.github.io/static/getting-started/restaurant-2.jpg'
+              'https://cdn1.medicalnewstoday.com/content/images/articles/323/323001/bowl-full-of-eggs.jpg'
           }
         },
         {
-          name: 'Kyoto Amber Upper East',
-          address: '225 Mulberry St, New York, NY 10012',
+          title: 'Green beans',
+          expiration: '8/25',
           image: {
             url:
-              'https://shoutem.github.io/static/getting-started/restaurant-3.jpg'
+              'https://www.simplyrecipes.com/wp-content/uploads/2009/11/green-beans-almonds-thyme-1800-2.jpg'
           }
         },
         {
-          name: 'Kyoto Amber Upper East',
-          address: '225 Mulberry St, New York, NY 10012',
+          title: 'Celery',
+          expiration: '8/25',
           image: {
             url:
-              'https://shoutem.github.io/static/getting-started/restaurant-3.jpg'
+              'https://draxe.com/wp-content/uploads/2015/04/CeleryTF-IDF_Header.jpg'
+          }
+        },
+        {
+          title: 'Peaches',
+          expiration: '8/25',
+          image: {
+            url:
+              'https://www.utahfarmbureau.org/Article/Live/titleImage?articleid=110340'
           }
         }
       ]
@@ -67,40 +74,20 @@ export default class ProductsGrid extends React.Component {
   }
 
   renderRow(rowData, sectionId, index) {
-    // rowData contains grouped data for one row,
-    // so we need to remap it into cells and pass to GridRow
-    if (index === '0') {
-      return (
-        <TouchableOpacity key={index}>
-          <ImageBackground
-            styleName="large"
-            source={{ uri: rowData[0].image.url }}
-          >
-            <Tile>
-              <Title styleName="md-gutter-bottom">{rowData[0].name}</Title>
-              <Subtitle styleName="sm-gutter-horizontal">
-                {rowData[0].address}
-              </Subtitle>
-            </Tile>
-          </ImageBackground>
-          <Divider styleName="line" />
-        </TouchableOpacity>
-      );
-    }
-
-    const cellViews = rowData.map((restaurant, id) => {
+    const styles = this.props.style;
+    const cellViews = rowData.map((product, id) => {
       return (
         <TouchableOpacity key={id} styleName="flexible">
           <Card styleName="flexible">
             <Image
               styleName="medium-wide"
-              source={{ uri: restaurant.image.url }}
+              source={{ uri: product.image.url }}
             />
             <View styleName="content">
-              <Subtitle numberOfLines={3}>{restaurant.name}</Subtitle>
+              <Subtitle numberOfLines={3}>{product.title}</Subtitle>
               <View styleName="horizontal">
-                <Caption styleName="collapsible" numberOfLines={2}>
-                  {restaurant.address}
+                <Caption styleName={product.soon && 'soon'} numberOfLines={1}>
+                  {`Expiring on ${product.expiration}`}
                 </Caption>
               </View>
             </View>
@@ -114,16 +101,8 @@ export default class ProductsGrid extends React.Component {
 
   render() {
     const products = this.state.products;
-    // Group the products into rows with 2 columns, except for the
-    // first restaurant. The first restaurant is treated as a featured restaurant
-    let isFirstArticle = true;
-    const groupedData = GridRow.groupByRows(products, 2, () => {
-      if (isFirstArticle) {
-        isFirstArticle = false;
-        return 2;
-      }
-      return 1;
-    });
+    // Group the products into rows with 2 columns
+    const groupedData = GridRow.groupByRows(products, 2);
 
     return <ListView data={groupedData} renderRow={this.renderRow} />;
   }

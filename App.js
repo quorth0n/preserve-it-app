@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
 import { Font, AppLoading, Constants } from 'expo';
+import { defaultThemeVariables, getTheme } from '@shoutem/ui';
+import { StyleProvider } from '@shoutem/theme';
 
 import MainView from './components/MainView';
 
@@ -33,9 +35,11 @@ export default class App extends React.PureComponent {
     }
 
     return (
-      <View style={styles.header}>
-        <MainView />
-      </View>
+      <StyleProvider style={theme}>
+        <View style={styles.header}>
+          <MainView />
+        </View>
+      </StyleProvider>
     );
   }
 }
@@ -43,5 +47,30 @@ export default class App extends React.PureComponent {
 const styles = StyleSheet.create({
   header: {
     marginTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
+  }
+});
+
+const theme = getTheme({
+  ...defaultThemeVariables,
+  caption: {
+    '.soon': {
+      /*backgroundColor:
+        "transparent"
+color:
+        "#666666"
+fontFamily:
+        "Rubik-Regular"
+fontSize:
+        12
+fontStyle:
+        "normal"
+fontWeight:
+        "normal"
+letterSpacing:
+        0.5
+lineHeight:
+        25*/
+      color: 'red'
+    }
   }
 });
