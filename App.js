@@ -4,6 +4,7 @@ import { Font, AppLoading, Constants } from 'expo';
 import { defaultThemeVariables, getTheme } from '@shoutem/ui';
 import { StyleProvider } from '@shoutem/theme';
 
+import Firebase, { FirebaseContext } from './components/Firebase';
 import MainView from './components/MainView';
 
 export default class App extends React.PureComponent {
@@ -35,11 +36,13 @@ export default class App extends React.PureComponent {
     }
 
     return (
-      <StyleProvider style={theme}>
-        <View style={styles.header}>
-          <MainView />
-        </View>
-      </StyleProvider>
+      <FirebaseContext.Provider value={new Firebase()}>
+        <StyleProvider style={theme}>
+          <View style={styles.header}>
+            <MainView />
+          </View>
+        </StyleProvider>
+      </FirebaseContext.Provider>
     );
   }
 }
@@ -53,23 +56,8 @@ const styles = StyleSheet.create({
 const theme = getTheme({
   ...defaultThemeVariables,
   caption: {
+    ...defaultThemeVariables.caption,
     '.soon': {
-      /*backgroundColor:
-        "transparent"
-color:
-        "#666666"
-fontFamily:
-        "Rubik-Regular"
-fontSize:
-        12
-fontStyle:
-        "normal"
-fontWeight:
-        "normal"
-letterSpacing:
-        0.5
-lineHeight:
-        25*/
       color: 'red'
     }
   }
