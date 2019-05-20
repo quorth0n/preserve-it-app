@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
+import { MenuProvider } from 'react-native-popup-menu';
 import { Font, AppLoading, Constants } from 'expo';
 import { defaultThemeVariables, getTheme } from '@shoutem/ui';
 import { StyleProvider } from '@shoutem/theme';
@@ -37,11 +38,13 @@ export default class App extends React.PureComponent {
 
     return (
       <FirebaseContext.Provider value={new Firebase()}>
-        <StyleProvider style={theme}>
-          <View style={styles.header}>
-            <MainView />
-          </View>
-        </StyleProvider>
+        <MenuProvider>
+          <StyleProvider style={theme}>
+            <View style={styles.header}>
+              <MainView />
+            </View>
+          </StyleProvider>
+        </MenuProvider>
       </FirebaseContext.Provider>
     );
   }
