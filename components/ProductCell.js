@@ -8,13 +8,12 @@ import {
   View,
   Caption
 } from '@shoutem/ui';
+import fetch from 'isomorphic-fetch';
 
 export default class ProductCell extends React.Component {
   onProductPress = async () => {
     try {
       const { action, year, month, day } = await DatePickerAndroid.open({
-        // Use `new Date()` for current date.
-        // May 25 2020. Month 0 is January.
         date: new Date()
       });
       if (action !== DatePickerAndroid.dismissedAction) {
@@ -30,7 +29,18 @@ export default class ProductCell extends React.Component {
       console.warn('Cannot open date picker', message);
     }
   };
+
+  getRecipes = async () => {
+    const recipes = await fetch(
+      `https://www.food2fork.com/api/search?key=${'3caf5a7186c37080d70611995b477bc5'}&q=${
+        this.props.product.name
+      }`
+    ).json();
+    console.log(recipes);
+  };
+
   render() {
+    this.getRecipes();
     return (
       <TouchableOpacity styleName="flexible" onPress={this.onProductPress}>
         <Card styleName="flexible">
