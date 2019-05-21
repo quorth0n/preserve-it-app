@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet, View, Platform, AppRegistry } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import { Font, AppLoading, Constants } from 'expo';
 import { defaultThemeVariables, getTheme } from '@shoutem/ui';
@@ -8,7 +8,7 @@ import { StyleProvider } from '@shoutem/theme';
 import Firebase, { FirebaseContext } from './components/Firebase';
 import MainView from './components/MainView';
 
-export default class App extends React.PureComponent {
+class App extends React.PureComponent {
   state = {
     fontsAreLoaded: false
   };
@@ -50,6 +50,11 @@ export default class App extends React.PureComponent {
   }
 }
 
+AppRegistry.registerComponent('Preserve-It!', () => {
+  App;
+});
+export default App;
+
 const styles = StyleSheet.create({
   header: {
     marginTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
@@ -62,6 +67,9 @@ const theme = getTheme({
     ...defaultThemeVariables.caption,
     '.soon': {
       color: 'red'
+    },
+    '.needsExp': {
+      color: 'orange'
     }
   }
 });

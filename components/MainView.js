@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { Notifications } from 'expo';
 import { NavigationBar, DropDownMenu, Button, Icon, Title } from '@shoutem/ui';
 
 import ProductsGrid from './ProductsGrid';
@@ -17,6 +17,21 @@ export default class MainView extends React.Component {
       ]
     };
   }
+
+  componentDidMount() {
+    // this.notif();
+  }
+
+  notif = async () => {
+    await Notifications.presentLocalNotificationAsync({
+      title: 'Milk is expiring in 3 days!',
+      body: 'Tap for recipes',
+      android: {
+        icon:
+          'https://cdn.discordapp.com/attachments/575519839783878677/580087540787183625/icon.png'
+      }
+    });
+  };
 
   render() {
     return (
