@@ -24,7 +24,7 @@ import {
   Button,
   Icon
 } from '@shoutem/ui';
-import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 import { WebBrowser } from 'expo';
 import _ from 'lodash';
 
@@ -55,24 +55,32 @@ export default class ProductCell extends React.Component {
   };
 
   getRecipes = async () => {
-    const recipes = await fetch(
+    console.log(
       `https://www.food2fork.com/api/search?key=${process.env.F2F_API_KEY}&q=${
         this.props.product.name
       }`
     );
-    return recipes.json();
+    const recipes = await axios.get(
+      `https://www.food2fork.com/api/search?key=${process.env.F2F_API_KEY}&q=${
+        this.props.product.name
+      }`
+    );
+    console.log(recipes);
+    return recipes;
   };
 
   onRecipesPress = async () => {
+    console.log('run1');
     const recipesData = await this.getRecipes();
-    const recipes = _(await recipesData.recipes)
+    console.log(recipesData);
+    /*const recipes = _(await recipesData.recipes)
       .take(5)
       .value();
     console.log(recipes);
     this.setState({
       recipesOpened: true,
       recipes
-    });
+    });*/
   };
 
   onTriggerPress = () => {

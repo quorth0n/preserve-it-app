@@ -50,9 +50,6 @@ class App extends React.PureComponent {
   }
 }
 
-AppRegistry.registerComponent('Preserve-It!', () => {
-  App;
-});
 export default App;
 
 const styles = StyleSheet.create({
